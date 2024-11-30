@@ -126,9 +126,12 @@ INSERT INTO restBill VALUES
     WHERE b.waiter_no = s.staff_no);
 
     -- 5
-    SELECT b.cust_name,s.first_name,s.surname, rm.room_name
+    SELECT DISTINCT b.cust_name,s2.first_name,s2.surname, rm.room_name
     FROM restBill b
-    INNER JOIN 
+    INNER JOIN restStaff s ON b.waiter_no = s.staff_no
+    INNER JOIN restStaff s2 ON s2.staff_no = s.headwaiter
+    INNER JOIN restRoom_management rm ON s2.staff_no=rm.headwaiter
+    WHERE bill_total IN (SELECT bill_total FROM restBill WHERE bill_total>500);
 
 
                      
