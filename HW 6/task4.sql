@@ -101,6 +101,36 @@ INSERT INTO restBill VALUES
     (00020, 160215, 444.44, 'Bob Crow', 4, 001, 007),
     (00021, 160215, 131.11, 'Nancy Smith', 2, 009, 011),
     (00022, 160312, 545.01, 'Sunil Shah', 4, 006, 004);
+
+    -- 1
+   SELECT b.cust_name FROM restBill b
+    WHERE b.bill_total > 450.00 AND b.waiter_no IN 
+    ( SELECT s.staff_no FROM restStaff s 
+    WHERE s.headwaiter = (SELECT staff_no FROM restStaff WHERE first_name ='Charles'));
+
+    -- 2
+    SELECT s.first_name,s.surname FROM restStaff s
+    INNER JOIN restStaff s2 ON s.staff_no=s2.headwaiter
+    WHERE s2.staff_no IN (SELECT waiter_no FROM restBill
+    WHERE cust_name LIKE 'Nerida%' AND bill_date=160111);
+
+    -- 3
+     SELECT cust_name 
+     FROM restBill 
+     WHERE bill_total IN (SELECT bill_total FROM restBill WHERE bill_total<150);
+
+    -- 4
+    SELECT s.first_name, s.surname FROM restStaff s
+    WHERE 
+    NOT EXISTS (SELECT s.staff_no FROM restBill b
+    WHERE b.waiter_no = s.staff_no);
+
+    -- 5
+    SELECT b.cust_name,s.first_name,s.surname, rm.room_name
+    FROM restBill b
+    INNER JOIN 
+
+
                      
                      
                      
