@@ -102,5 +102,43 @@ INSERT INTO restBill VALUES
     (00021, 160215, 131.11, 'Nancy Smith', 2, 009, 011),
     (00022, 160312, 545.01, 'Sunil Shah', 4, 006, 004);
                      
+    -- 1
+   SELECT s.first_name, s.surname, b.bill_date, COUNT(b.bill_no) as bill_count
+   FROM restBill b
+   INNER JOIN restStaff s ON b.waiter_no = s.staff_no
+   GROUP BY s.first_name, s.surname, b.bill_date
+   HAVING COUNT(b.bill_no) >= 2;
+
+   -- 2
+   SELECT room_name,COUNT(table_no) as no_of_TABLES
+   FROM restRest_table
+   WHERE no_of_seats >=6
+   GROUP BY room_name;
+
+   -- 3
+   SELECT rm.room_name,SUM(b.bill_total) as TOTAL
+   FROM restRest_table rm
+   INNER JOIN restBill b ON rm.table_no=b.table_no
+   GROUP BY room_name;
+
+   -- 4
+   SELECT hw.first_name, hw.surname, SUM(b.bill_total) as total_bill_amount
+   FROM restBill b
+   INNER JOIN restStaff w ON b.waiter_no = w.staff_no
+   INNER JOIN restStaff hw ON w.headwaiter = hw.staff_no
+   GROUP BY hw.first_name, hw.surname
+   ORDER BY total_bill_amount DESC;
+ 
+   -- 5
+   SELECT cust_name,AVG(bill_total) as average_spent
+   FROM restBill
+   GROUP BY cust_name
+   HAVING AVG(bill_total)>400;
                      
+   -- 6
+   SELECT s.first_name, s.surname, b.bill_date, COUNT(b.bill_no) as bill_count
+   FROM restBill b
+   INNER JOIN restStaff s ON b.waiter_no = s.staff_no
+   GROUP BY s.first_name, s.surname, b.bill_date
+   HAVING COUNT(b.bill_no) >= 3;
                      
